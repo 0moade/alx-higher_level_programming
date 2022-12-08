@@ -1,21 +1,24 @@
 #include "lists.h"
-
 /**
- * sum_dlistint - function with one argument
- * @head: head pointer to double linked list
- *
- * Description: returns the sum of all the data(n)
- * Return: 0 if empty or sum of n value
+ * sum_dlistint_rec - sum node values of double linked list recursively.
+ * @head: pointer to list.
+ * @sum: sum of node's data.
+ * Return: sum.
+ */
+int sum_dlistint_rec(dlistint_t *head, int sum)
+{
+	if (head)
+		sum = sum_dlistint_rec(head->next, sum + head->n);
+	return (sum);
+}
+/**
+ * sum_dlistint - get the nth node of a dlistint_t linked list.
+ * @head: pointer to list.
+ * Return: the sum result.
  */
 int sum_dlistint(dlistint_t *head)
 {
-	int sum = 0;
-	dlistint_t *cursor = head;
+	int n = 0;
 
-	while (cursor)
-	{
-		sum += cursor->n;
-		cursor = cursor->next;
-	}
-	return (sum);
+	return (sum_dlistint_rec(head, n));
 }

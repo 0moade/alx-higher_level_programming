@@ -1,39 +1,40 @@
 #include "lists.h"
-
 /**
- * delete_dnodeint_at_index - function with two arguments
- * @head: pointer to double linked list
- * @index: index position to delete node
- *
- * Description: delete node at index position
- * Return: 1 if succeeded or -1 if failed
+ * delete_dnodeint_at_index - deletes node at the given position.
+ * @head: double pointer to list.
+ * @index: index of inserting position.
+ * Return: 1 if it succeeded, -1 if it failed
  */
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-	dlistint_t *cursor = *head;
+	unsigned int i = 0;
+	dlistint_t *bfr_node = *head, *tmp_node = *head;
 
-	if (!head)
-		return (-1);
-	if (head)
+	if (index == 0 && *head)
 	{
-		while (index && cursor)
+		if ((*head)->next)
 		{
-			cursor = cursor->next;
-			index--;
+			*head = (*head)->next;
+			(*head)->prev = NULL;
+			free(tmp_node);
 		}
-		if (index)
-			return (-1);
-		if (!index && cursor)
-		{
-			if (cursor->next)
-				cursor->next->prev = cursor->prev;
-			if (cursor->prev)
-				cursor->prev->next = cursor->next;
-			else
-				*head = cursor->next;
-			free(cursor);
-			return (1);
-		}
+		else
+			*head = NULL;
+		return (1);
+	}
+	while (i < index - 1 && bfr_node)
+	{
+		bfr_node = bfr_node->next;
+		i++;
+	}
+	if (bfr_node)
+	{
+		tmp_node = bfr_node->next;
+		if (tmp_node->next)
+			tmp_node->next->prev = bfr_node;
+		bfr_node->next = tmp_node->next;
+		free(tmp_node);
+		return (1);
 	}
 	return (-1);
 }
